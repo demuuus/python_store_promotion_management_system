@@ -209,17 +209,17 @@ def type_valid(type_input):
 
 def start_date():
     while True:
-        start_input = input("\nMasukkan tanggal mulai promosi (DD-MM-YYY): ").strip()
+        start_input = input("\nMasukkan tanggal mulai promosi (DD-MM-YYYY): ").strip()
         try:
             start_promotion = datetime.strptime(start_input, "%d-%m-%Y").date()
             break
         except ValueError:
-            print("Eror: Format tanggal salah atau kosong! Gunakan DD-MM-YYY (Contoh: 09-11-2026).")
+            print("Eror: Format tanggal salah atau kosong! Gunakan DD-MM-YYYY (Contoh: 09-11-2026).")
     return start_promotion
 
 def end_date(start_promotion):
     while True:
-        end_input = input("\nMasukkan tanggal akhir promosi (DD-MM-YYY): ").strip()
+        end_input = input("\nMasukkan tanggal akhir promosi (DD-MM-YYYY): ").strip()
         try:
             end_promotion = datetime.strptime(end_input, "%d-%m-%Y").date()
             if end_promotion < start_promotion:
@@ -227,7 +227,7 @@ def end_date(start_promotion):
                 continue
             return end_promotion
         except ValueError:
-            print("Eror: Format tanggal salah atau kosong! Gunakan DD-MM-YYY (Contoh: 09-11-2026).")
+            print("Eror: Format tanggal salah atau kosong! Gunakan DD-MM-YYYY (Contoh: 09-11-2026).")
 
 def discount(type_value):
     while True:
@@ -377,7 +377,7 @@ def update_promotion():                                                         
     for i in promotions:
         if str(i["id_promotion"]) == update_input:
             found = True
-            print(f"[+] Data ditemukan: {i["name_promotion"]}\nSilakan masukkan data baru:\n")
+            print(f"[+] Data ditemukan: {i['name_promotion']}\nSilakan masukkan data baru:\n")
             
             tipe_baru_angka = {"persentase": 1,
                                 "b2g1": 2,
@@ -413,6 +413,8 @@ def update_promotion():                                                         
                 except ValueError:
                     print("[X] Input tidak valid!")
                     
+            ubah_tanggal_akhir = False
+
             while True:
                 try:
                     print("Apakah anda ingin mengubah tanggal mulai?")
@@ -420,22 +422,30 @@ def update_promotion():                                                         
                         start_baru = start_date()
                         i["start_date"] = start_baru
                         print()
+
+                        if i["end_date"] < i["start_date"]:
+                            print("[!] Tanggal akhir sebelumnya tidak valid "
+                                "karena tanggal mulai berubah.")
+                            i["end_date"] = end_date(i["start_date"])
+                            ubah_tanggal_akhir = True
+
                     print()
                     break
                 except ValueError:
                     print("[X] Input tidak valid!")
-            
-            while True:
-                try:
-                    print("Apakah anda ingin mengubah tanggal akhir?")
-                    if konfirmasi():
-                        end_baru = end_date(i["start_date"])
-                        i["end_date"] = end_baru
+
+            if not ubah_tanggal_akhir:
+                while True:
+                    try:
+                        print("Apakah anda ingin mengubah tanggal akhir?")
+                        if konfirmasi():
+                            end_baru = end_date(i["start_date"])
+                            i["end_date"] = end_baru
+                            print()
                         print()
-                    print()
-                    break
-                except ValueError:
-                    print("[X] Input tidak valid!")
+                        break
+                    except ValueError:
+                        print("[X] Input tidak valid!")
             
             if i["type_promotion"] == "b2g1":
                 i["discount"] = 1
@@ -464,23 +474,25 @@ def update_promotion():                                                         
 # /===== DELETE Program =====/
 def delete():                                                                               # DELETE
     """Function for delete the sale"""
-    delete_input = int(input("Masukkan ID yang ingin di hapus: "))
-    found = False
-    
-    while True:
-        for i in promotions:
-            if delete_input == i["id_promotion"]:
-                found = True
-                print("\n[!] Apakah anda yakin untuk menghapus promosi tersebut? y/n: ")
-                if konfirmasi():
-                    promotions.remove(i)
-                    print(f"[+] Promosi ID: {i["id_promotion"]} berhasil dihapus!")
-                else:
-                    print("[X] Input tidak valid! Ketik 'y' jika iya dan 'n' jika tidak")
+    try:
+        delete_input = int(input("Masukkan ID yang ingin di hapus: "))
+    except ValueError:
+        print("[X] Input tidak valid! Masukkan angka!")
+        return False
+
+    for i in promotions:
+        if delete_input == i["id_promotion"]:
+            print("\n[!] Apakah anda yakin untuk menghapus promosi tersebut?")
+            if konfirmasi():
+                promotions.remove(i)
+                print(f"[+] Promosi ID: {i['id_promotion']} berhasil dihapus!")
                 return True
-        if not found:
-            print(f"[X] Promosi dengan ID {delete_input} tidak ada, Masukkan kembali Promosi ID antara 1-{len(promotions)}")
-            return False
+            else:
+                print("[!] Penghapusan dibatalkan.")
+                return False
+
+    print(f"[X] Promosi dengan ID {delete_input} tidak ada, Masukkan kembali Promosi ID antara 1-{len(promotions)}")
+    return False
 
 def konfirmasi():
     while True:
@@ -493,9 +505,9 @@ def konfirmasi():
             elif pilihan == 2:
                 return False
             else:
-                print("[X] Input tidak valid! Masukkan 1 atau 2")
+                print("[X] Input tidak valid! Masukkan 1 atau 2\n")
         except ValueError:
-            print("[X] Input tidak valid! Masukkan angka 1 atau 2!")
+            print("[X] Input tidak valid! Masukkan angka!")
 
 # /===== TRANSACTION Program =====/
 def transaksi():
@@ -503,9 +515,9 @@ def transaksi():
     print("Berikut barang yang tersedia\n")
     for i in products:
         print(f"ID: {i['id_product']} | "
-            f"Nama: {i["name_product"]} | "
-            f"Stok: {i["stock_product"]} | "
-            f"Harga (Rp): {i["price_product"]:,.0f} ")
+            f"Nama: {i['name_product']} | "
+            f"Stok: {i['stock_product']} | "
+            f"Harga (Rp): {i['price_product']:,.0f} ")
     found = False
     while True:
         try:
@@ -516,7 +528,7 @@ def transaksi():
                     jumlah_input = int(input("\nBerapa banyak yang dibeli: "))
                     
                     if jumlah_input > i["stock_product"]:
-                        print(f"Jumlah barang tersisa hanya {i["stock_product"]}")
+                        print(f"Jumlah barang tersisa hanya {i['stock_product']}")
                     elif jumlah_input <= 0:
                         print("[!] Input tidak valid! Masukkan angka positif")
                     else:
@@ -526,7 +538,7 @@ def transaksi():
                             print("\n[+] Transaksi berhasil!"
                                 f"\nTotal bayar: Rp{harga:,.0f}"
                                 f"\nSisa stok {i['name_product']}: "
-                                f"{i["stock_product"]}")
+                                f"{i['stock_product']}")
                         else:
                             print("[X] Transaksi gagal!")
                     return
@@ -546,7 +558,7 @@ def diskon(product, jumlah_input):
     print("\nApakah anda memiliki voucher?")
     if not konfirmasi():
         print(f"\nHarga yang harus dibayar: Rp{harga_awal:,.0f}")
-        return harga_awal, False
+        return harga_awal, False, barang_diterima
     
     diskon_input = input("Masukkan kode voucher yang anda miliki saat ini: ").title()
     promotion = None
@@ -557,11 +569,11 @@ def diskon(product, jumlah_input):
     
     if promotion is None:
         print("[!] Voucher tidak ditemukan!")
-        return harga_awal, False
+        return harga_awal, False, barang_diterima
     
     if not (promotion["start_date"] <= today <= promotion["end_date"]):
         print("[!] Voucher sudah tidak aktif!")
-        return harga_awal, False
+        return harga_awal, False, barang_diterima
         
     tipe = promotion["type_promotion"]
     
@@ -569,19 +581,19 @@ def diskon(product, jumlah_input):
         if jumlah_input % 2 != 0 or jumlah_input > 6:
             print("\n[!] Promosi B2G1 tidak sesuai kriteria."
                 "\nSyarat: jumlah pembelian harus genap dan maksimal 6.")
-            return harga_awal, False
+            return harga_awal, False, barang_diterima
 
     elif tipe == "persentase":
         if jumlah_input < 5:
             print("\n[!] Promosi persentase tidak sesuai kriteria."
                 "\nSyarat: minimal pembelian 5 barang.")
-            return harga_awal, False
+            return harga_awal, False, barang_diterima
 
     elif tipe == "fixed":
         if jumlah_input > 4:
             print("\n[!] Promosi fixed tidak sesuai kriteria."
                 "\nSyarat: maksimal pembelian 4 barang.")
-            return harga_awal, False
+            return harga_awal, False, barang_diterima
 
     print(f"\nVoucher '{promotion['name_promotion']}' ditemukan dan aktif.\n")
     print("Apakah anda yakin ingin menggunakan promo ini?")
@@ -589,7 +601,7 @@ def diskon(product, jumlah_input):
     if not konfirmasi():
         print(f"\nPromo tidak digunakan.")
         print(f"Harga yang harus dibayar: Rp{harga_awal:,.0f}")
-        return harga_awal, False
+        return harga_awal, False, barang_diterima
 
     harga = harga_awal
 
@@ -608,17 +620,17 @@ def diskon(product, jumlah_input):
         promo_berhasil = True
         harga = diskon_persentase(product, promotion, jumlah_input)
         potongan = harga_awal - harga
-        print(f"\nPotongan harga {i["discount"]}%: Rp{potongan:,.0f}")
+        print(f"\nPotongan harga {promotion['discount']}%: Rp{potongan:,.0f}")
 
     elif tipe == "fixed":
         harga = diskon_fixed(harga, promotion, jumlah_input)
         
         if harga is None:
             promo_berhasil = False
-            print(f"\n[!] Promosi {i["name_promotion"]} tidak dapat digunakan.\n"
+            print(f"\n[!] Promosi {promotion['name_promotion']} tidak dapat digunakan.\n"
                 "Syarat: harga setelah diskon tidak boleh kurang dari Rp 0\n"
                 f"Harga yang harus dibayar: Rp{harga_awal}")
-            return harga_awal, False
+            return harga_awal, False, barang_diterima
         else:
             promo_berhasil = True
             potongan = harga_awal - harga

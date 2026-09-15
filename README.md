@@ -39,8 +39,6 @@ This application is designed for minimarket owners and cashiers to manage promot
 * **Delete:**
     * Allow the removal of unwanted promotion records.
     * Provide confirmation before deleting promotion data.
-* **Security:**
-    * The application does not implement user authentication or authorization.
 * **Reporting:**
     * The application displays promotion, product, and transaction information through the command-line interface.
 
@@ -56,7 +54,7 @@ This application is designed for minimarket owners and cashiers to manage promot
     cd python_store_promotion_management_system
     ```
 
-3. **Database Setup (if applicable):**
+3. **Database Setup:**
     No database setup is required. The application uses Python lists and dictionaries to store data in memory.
 
 ## Usage

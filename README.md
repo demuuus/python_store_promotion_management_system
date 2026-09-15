@@ -1,6 +1,9 @@
 <div align="center">
+
 🌐 [English](README.md) | [Indonesia](README.id.md)
+
 [![Python](https://img.shields.io/badge/python-3.14%2B-blue)]()
+
 </div>
 
 # Python CRUD Application for Cashier Promotion Event Management System

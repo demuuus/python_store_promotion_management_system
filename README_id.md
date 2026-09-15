@@ -1,6 +1,6 @@
 <div align="center">
 
-🌐 [English](README.md) | [Indonesia](README.id.md)
+🌐 [English](README.md) | [Indonesia](README_id.md)
 
 [![Python](https://img.shields.io/badge/python-3.14%2B-blue)]()
 

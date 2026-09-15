@@ -1,3 +1,8 @@
+<div align="center">
+🌐 [English](README.md) | [Indonesia](README.id.md)
+[![Python](https://img.shields.io/badge/python-3.14%2B-blue)]()
+</div>
+
 # Aplikasi CRUD Python untuk Sistem Manajemen Event Promosi Kasir
 
 Aplikasi Python untuk mengelola data promosi minimarket dengan operasi Create, Read, Update, dan Delete (CRUD).
@@ -81,4 +86,4 @@ Proyek ini menggunakan list dan dictionary Python untuk merepresentasikan data p
    * `category_product`: (String) - Kategori produk.
 
 ## Contributing
-Kami menerima kontribusi untuk proyek ini. Silakan membuat pull request, mengirim ke [demas.anggara04@gmail.com], atau membuat issue jika menemukan masalah atau memiliki saran untuk pengembangan.
+Kami menerima kontribusi untuk proyek ini. Silakan membuat pull request, mengirim ke demas.anggara04@gmail.com, atau membuat issue jika menemukan masalah atau memiliki saran untuk pengembangan.

@@ -1,3 +1,8 @@
+<div align="center">
+🌐 [English](README.md) | [Indonesia](README.id.md)
+[![Python](https://img.shields.io/badge/python-3.14%2B-blue)]()
+</div>
+
 # Python CRUD Application for Cashier Promotion Event Management System
 
 A Python application for managing minimarket promotion data with Create, Read, Update, and Delete (CRUD) operations.
@@ -81,4 +86,4 @@ This project utilizes Python lists and dictionaries to represent promotion and p
    * `category_product`: (String) - Product category.
 
 ## Contributing
-We welcome contributions to this project! Please feel free to open a pull request, sent to [demas.anggara04@gmail.com] or submit an issue if you encounter any problems or have suggestions for improvements.
+We welcome contributions to this project! Please feel free to open a pull request, sent to demas.anggara04@gmail.com or submit an issue if you encounter any problems or have suggestions for improvements.

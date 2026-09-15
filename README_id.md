@@ -39,8 +39,6 @@ Aplikasi ini ditujukan untuk owner dan kasir minimarket untuk mengelola promosi 
 * **Delete:**
     * Menghapus data promosi yang sudah tidak diperlukan.
     * Memberikan konfirmasi sebelum menghapus data promosi.
-* **Security:**
-    * Aplikasi ini tidak menerapkan autentikasi atau otorisasi pengguna.
 * **Reporting:**
     * Menampilkan informasi promosi, produk, dan transaksi melalui command-line interface.
 
@@ -56,7 +54,7 @@ Aplikasi ini ditujukan untuk owner dan kasir minimarket untuk mengelola promosi 
     cd python_store_promotion_management_system
     ```
 
-3. **Database Setup (if applicable):**
+3. **Database Setup:**
     Tidak memerlukan database. Aplikasi menggunakan list dan dictionary Python untuk menyimpan data di dalam memori.
 
 ## Usage

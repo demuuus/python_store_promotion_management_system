@@ -81,7 +81,21 @@ promotions = [
 # /===== CREATE Program =====/
 def create_promotion():                                                                          # CREATE
     """Create a promotion"""
-    print("Membuat promosi baru\n\n" + "=" * 50)
+    while True:
+        print("Membuat promosi baru\n\n" + "=" * 50)
+        print("\nApa yang ingin anda lakukan?\n"
+                "[1] Lanjutkan\n"
+                "[2] Back\n")
+
+        pilihan_awal = input("Masukkan angka: ").strip()
+        if pilihan_awal == "1":
+            break
+
+        elif pilihan_awal == "2":
+            return
+
+        else:
+            print("[X] Input tidak valid! Masukkan angka 1 atau 2.")
 
     nama_promosi = name_promotion()
     tipe_promosi, tipe_promosi_angka = type_promotion()
@@ -256,11 +270,14 @@ def get_product():                                                              
             get_input = int(input("Apa yang ingin anda lihat?\n"
                                 "[1] Promosi\n"
                                 "[2] Produk\n"
+                                "[3] Back\n"
                                 "Masukkan angka: "))
             
-            if get_input not in (1, 2):
+            if get_input not in (1, 2, 3):
                 print("[X] Input tidak valid! Masukkan angka 1 atau 2!")
                 continue
+            if get_input == 3:
+                return
             break
         except ValueError:
             print("[X] Input tidak valid! Masukkan angka!")
@@ -370,6 +387,22 @@ def update_promotion():                                                         
                 print(f"{key}: {value}", end = "\n")
             print()
         
+    while True:
+        print("Apa yang ingin anda lakukan?\n"
+              "[1] Lanjutkan\n"
+              "[2] Back\n")
+
+        pilihan_awal = input("Masukkan angka: ").strip()
+
+        if pilihan_awal == "1":
+            break
+
+        elif pilihan_awal == "2":
+            return
+
+        else:
+            print("[X] Input tidak valid! Masukkan angka 1 atau 2.")
+            
     update_input = input("\nMasukkan ID Promosi yang ingin diubah: ").strip()
     print("\n" + "=" * 50 + "\n")
     
@@ -468,12 +501,49 @@ def update_promotion():                                                         
         
     if not found:
         print(f"[X] ID Promosi '{update_input}' tidak ditemukan!")
-        
     return
 
 # /===== DELETE Program =====/
 def delete():                                                                               # DELETE
     """Function for delete the sale"""
+    for i in promotions:
+            for key, value in i.items():
+                print(f"{key}: {value}", end = "\n")
+            print()
+
+    while True:
+            print("\nApa yang ingin anda lakukan?\n"
+                "[1] Lanjutkan\n"
+                "[2] Delete All\n"
+                "[3] Back\n")
+
+            pilihan_awal = input("Masukkan angka: ").strip()
+
+            if pilihan_awal == "1":
+                break
+
+            elif pilihan_awal == "2":
+                if not promotions:
+                    print("\n[!] Tidak ada promosi yang dapat dihapus.")
+                    return False
+
+                print(f"\n[!] Apakah anda yakin ingin menghapus "
+                    f"semua {len(promotions)} promosi?")
+
+                if konfirmasi():
+                    promotions.clear()
+                    print("\n[+] Semua promosi berhasil dihapus.")
+                    return True
+                else:
+                    print("\n[!] Penghapusan dibatalkan.")
+                    return False
+
+            elif pilihan_awal == "3":
+                return False
+
+            else:
+                print("[X] Input tidak valid! Masukkan angka 1, 2, atau 3.")
+
     try:
         delete_input = int(input("Masukkan ID yang ingin di hapus: "))
     except ValueError:
@@ -512,6 +582,22 @@ def konfirmasi():
 # /===== TRANSACTION Program =====/
 def transaksi():
     """Customer purchase"""
+    while True:
+        print("Apa yang ingin anda lakukan?\n"
+              "[1] Lanjutkan\n"
+              "[2] Back\n")
+
+        pilihan_awal = input("Masukkan angka: ").strip()
+
+        if pilihan_awal == "1":
+            break
+
+        elif pilihan_awal == "2":
+            return
+
+        else:
+            print("[X] Input tidak valid! Masukkan angka 1 atau 2.")
+            
     print("Berikut barang yang tersedia\n")
     for i in products:
         print(f"ID: {i['id_product']} | "
